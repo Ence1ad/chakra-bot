@@ -1,31 +1,12 @@
 from functools import lru_cache
 
 from apscheduler.jobstores.redis import RedisJobStore
-from pydantic import Field
+from pydantic import Field, BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
 
-class LoggingSettings(BaseSettings):
-    """Logging Settings."""
-
-    LEVEL: int
-    FORMAT: str
-
-
-class PostgresSettings(BaseSettings):
-    """PostgreSQL Settings."""
-
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_HOST: str
-    POSTGRES_PORT: int
-    POSTGRES_DB: str
-    DB_USER: str
-    DB_USER_PASS: str
-
-
-class ProjectSettings(BaseSettings):
+class ProjectSettings(BaseModel):
     """Project Settings."""
 
     THROTTLING_RATE_LIMIT: int = Field(default=10, gt=0,
@@ -53,25 +34,7 @@ class ProjectSettings(BaseSettings):
     REPORTS_DISTRIBUTION_DELAY: int = Field(default=2, gt=0, le=10)
 
 
-class RedisSettings(BaseSettings):
-    """Redis Settings."""
-
-    REDIS_HOST: str
-    REDIS_PORT: int
-    REDIS_DB: int
-    REDIS_PASSWORD: str
-
-
-class TgBotSettings(BaseSettings):
-    """Telegram Bot Settings."""
-
-    BOT_TOKEN: str
-    ADMIN_ID: int
-    GROUP_ID: int
-
-
-class Settings(LoggingSettings, PostgresSettings, ProjectSettings, RedisSettings,
-               TgBotSettings, BaseSettings):
+class Settings(ProjectSettings, BaseSettings):
     """Application settings class that combines various configuration settings.
 
     This class inherits from multiple configuration settings classes to create a
@@ -92,7 +55,34 @@ class Settings(LoggingSettings, PostgresSettings, ProjectSettings, RedisSettings
         for the scheduler.
     """
 
-    model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
+    model_config = SettingsConfigDict(
+        env_file='.env',
+        env_file_encoding='utf-8',
+        extra='ignore'
+    )
+
+    # ProjectSettings
+    project: ProjectSettings = ProjectSettings()
+
+    # PostgreSQL Settings.
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+    DB_USER: str
+    DB_USER_PASS: str
+
+    # Telegram Bot Settings.
+    BOT_TOKEN: str
+    ADMIN_ID: int
+    GROUP_ID: int
+
+    # Logging Settings.
+
+    LEVEL: int
+    FORMAT: str
+
 
     @property
     def cache_url(self) -> str:

@@ -28,8 +28,9 @@ class CategoryModel(AsyncSaBase):
 
     __tablename__ = 'categories'
     category_id: Mapped[int] = mapped_column(Identity(), primary_key=True)
-    category_name: Mapped[str] = mapped_column(String(settings.LENGTH_NAME_LIMIT),
-                                               nullable=False)
+    category_name: Mapped[str] = mapped_column(
+        String(settings.project.LENGTH_NAME_LIMIT), nullable=False
+    )
     user_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey('users.user_id', ondelete='cascade'), nullable=False
     )

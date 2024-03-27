@@ -134,7 +134,10 @@ async def main(bot: Bot, debug: bool) -> None:
     # Register middlewares
     await _register_middlewares(
         dp=dp, async_session=async_session, buttons=buttons, redis_client=redis_client,
-        throttling=(settings.THROTTLING_RATE_LIMIT, settings.THROTTLING_RATE_PERIOD),
+        throttling=(
+            settings.project.THROTTLING_RATE_LIMIT,
+            settings.project.THROTTLING_RATE_PERIOD
+        ),
         translator=translator, scheduler=scheduler
     )
 

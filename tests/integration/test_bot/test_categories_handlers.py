@@ -38,13 +38,13 @@ class TestCategoriesHandlers:
             self, db_user_factory, db_session_fixture: AsyncSession
     ) -> None:
         user_id = await db_user_factory(MAIN_USER_ID)
-        for name in range(settings.USER_CATEGORIES_LIMIT):
+        for name in range(settings.project.USER_CATEGORIES_LIMIT):
             await create_category(user_id=user_id, category_name=str(name),
                                   db_session=db_session_fixture)
         try:
             yield
         finally:
-            for cat_id in range(settings.USER_CATEGORIES_LIMIT):
+            for cat_id in range(settings.project.USER_CATEGORIES_LIMIT):
                 await delete_category(user_id=user_id, category_id=cat_id + 1,
                                       db_session=db_session_fixture)
 
@@ -75,7 +75,7 @@ class TestCategoriesHandlers:
         with expectation:
             assert isinstance(handler_returns, EditMessageText)
             assert handler_returns.text == i18n.get(
-                answer_text, category_limit=settings.USER_CATEGORIES_LIMIT
+                answer_text, category_limit=settings.project.USER_CATEGORIES_LIMIT
             )
             if answer_text == 'category_limit_text':
                 assert handler_returns.reply_markup == await menu_inline_kb(

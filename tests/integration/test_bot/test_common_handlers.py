@@ -179,7 +179,7 @@ class TestCommonHandlers:
     ) -> None:
         local = await redis_hget_lang(user_id=user_id, redis_client=redis_cli)
 
-        if local == settings.RU_LANG_CODE:
+        if local == settings.project.RU_LANG_CODE:
             lang_code: dict[str, str] = {
                 "main": 'ru_help_main.html',
                 "cat": 'ru_help_categories.html',
@@ -313,6 +313,6 @@ class TestCommonHandlers:
             if data is None:
                 assert lang_code_after.decode(encoding='utf-8') == lang_bot_settings
             elif data in ('RUSSIAN', 'X_RUSSIAN'):
-                assert lang_code_after.decode(encoding='utf-8') == settings.RU_LANG_CODE
+                assert lang_code_after.decode(encoding='utf-8') == settings.project.RU_LANG_CODE
             elif data in ('ENGLISH', 'X_ENGLISH'):
-                assert lang_code_after.decode(encoding='utf-8') == settings.EN_LANG_CODE
+                assert lang_code_after.decode(encoding='utf-8') == settings.project.EN_LANG_CODE

@@ -30,7 +30,7 @@ class ActionModel(AsyncSaBase):
     __tablename__ = 'actions'
     action_id: Mapped[int] = mapped_column(Identity(), primary_key=True)
     action_name: Mapped[str] = mapped_column(
-        String(settings.LENGTH_NAME_LIMIT), nullable=False
+        String(settings.project.LENGTH_NAME_LIMIT), nullable=False
     )
     category_id: Mapped[int] = mapped_column(
         ForeignKey('categories.category_id', ondelete='cascade'),

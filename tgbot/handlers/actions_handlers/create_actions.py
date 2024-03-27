@@ -39,13 +39,13 @@ async def prompt_name_4_new_action_handler(
     action_count: int = len(
         await select_category_actions(user_id, category_id, db_session)
     )
-    if action_count >= settings.USER_ACTIONS_LIMIT:
+    if action_count >= settings.project.USER_ACTIONS_LIMIT:
         markup: InlineKeyboardMarkup = await menu_inline_kb(
             await buttons.actions_btn_source.action_menu_buttons(),
             i18n)
         return await call.message.edit_text(
             text=i18n.get('action_limit_text',
-                          action_limit=settings.USER_ACTIONS_LIMIT),
+                          action_limit=settings.project.USER_ACTIONS_LIMIT),
             reply_markup=markup)
     else:
         await state.set_state(ActionState.GET_NAME)

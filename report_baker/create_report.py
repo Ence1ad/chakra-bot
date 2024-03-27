@@ -17,7 +17,7 @@ from report_baker.chart_date_title import DateTitle
 
 
 async def create_fig(df_action: DataFrame, df_categories: DataFrame,
-                     file_name: str = settings.WEEKLY_XLSX_FILE_NAME) -> None:
+                     file_name: str = settings.project.WEEKLY_XLSX_FILE_NAME) -> None:
     """Create figures and charts in an Excel workbook.
 
     :param df_action: DataFrame: DataFrame containing action data.

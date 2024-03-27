@@ -110,7 +110,7 @@ class TestActionsHandlers:
         is_tracker = await is_redis_hexists_tracker(user_id=user_id,
                                                     redis_client=redis_cli)
         if is_tracker and USER_ID_WITH_TRACKER_LIMIT:
-            for _ in range(settings.USER_TRACKERS_DAILY_LIMIT):
+            for _ in range(settings.project.USER_TRACKERS_DAILY_LIMIT):
                 await redis_incr_user_day_trackers(user_id, redis_client=redis_cli)
         user_trackers_cnt = await redis_get_user_day_trackers(user_id, redis_cli)
         print(user_trackers_cnt)
@@ -118,7 +118,7 @@ class TestActionsHandlers:
         with expectation:
             assert isinstance(handler_result, (EditMessageText, SendMessage))
             if user_trackers_cnt is None or (
-                    int(user_trackers_cnt) < settings.USER_TRACKERS_DAILY_LIMIT):
+                    int(user_trackers_cnt) < settings.project.USER_TRACKERS_DAILY_LIMIT):
                 if categories := await select_categories(user_id, db_session_fixture):
                     operation = await _get_operation(call_data=button_data,
                                                      buttons=buttons)
@@ -442,12 +442,14 @@ class TestActionsHandlers:
     ) -> None:
         report = await select_weekly_trackers(user_id, db_session_fixture)
         with expectation:
-            handler_result = await execute_callback_query_handler(user_id,
-                                                                  data=button_data)
+            handler_result = await execute_callback_query_handler(
+                user_id,
+                data=button_data
+            )
             assert isinstance(handler_result, (EditMessageText, SendDocument))
             if report and isinstance(handler_result, SendDocument):
                 assert handler_result.document.filename == \
-                       settings.WEEKLY_XLSX_FILE_NAME
+                       settings.project.WEEKLY_XLSX_FILE_NAME
                 assert handler_result.caption == i18n.get(answer_text)
             elif not report and isinstance(handler_result, EditMessageText):
                 assert handler_result.text == i18n.get(answer_text)

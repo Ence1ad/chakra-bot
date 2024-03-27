@@ -12,24 +12,26 @@ en_file_path = Path('tgbot/localization/locale/en.ftl')
 
 @dataclass
 class Translator:
-    global_lang: str = settings.GLOBAL_LANG_CODE
+    global_lang: str = settings.project.GLOBAL_LANG_CODE
 
     t_hub: TranslatorHub = TranslatorHub(
-        {settings.RU_LANG_CODE: (settings.RU_LANG_CODE, settings.EN_LANG_CODE),
-         settings.EN_LANG_CODE: (settings.EN_LANG_CODE,)},
+        {settings.project.RU_LANG_CODE: (
+            settings.project.RU_LANG_CODE, settings.project.EN_LANG_CODE
+        ),
+         settings.project.EN_LANG_CODE: (settings.project.EN_LANG_CODE,)},
         translators=[
-            FluentTranslator(locale=settings.EN_LANG_CODE,
+            FluentTranslator(locale=settings.project.EN_LANG_CODE,
                              translator=FluentBundle.from_files(
                                  "en-US",
                                  filenames=[en_file_path],
                                  # use_isolating=False
                              )),
 
-            FluentTranslator(locale=settings.RU_LANG_CODE,
+            FluentTranslator(locale=settings.project.RU_LANG_CODE,
                              translator=FluentBundle.from_files(
                                  "ru-RU",
                                  filenames=[ru_file_path],
                                  # use_isolating=False
                              ))],
-        root_locale=settings.GLOBAL_LANG_CODE,
+        root_locale=settings.project.GLOBAL_LANG_CODE,
     )

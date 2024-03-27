@@ -28,7 +28,7 @@ async def redis_hget_lang(user_id: int,  redis_client: Redis, local: str | None 
     if not lang_code and local is not None:
         return local
     else:
-        return settings.EN_LANG_CODE
+        return settings.project.EN_LANG_CODE
 
 
 async def redis_hset_lang(user_id: int,  redis_client: Redis, lang_code: str | bytes

@@ -24,7 +24,7 @@ async def _create_user_report_dir(user_id: int) -> None:
     :param user_id:  The user's ID.
     :return: None
     """
-    user_report_dir: Path = Path(f'{settings.USER_REPORT_DIR}{user_id}')
+    user_report_dir: Path = Path(f'{settings.project.USER_REPORT_DIR}{user_id}')
     if not Path.is_dir(user_report_dir):
         Path.mkdir(user_report_dir)
     return None

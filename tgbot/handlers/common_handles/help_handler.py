@@ -21,7 +21,7 @@ async def command_help_handler(message: Message, redis_client: Redis,
     current_user_lang = await redis_hget_lang(user_id=user_id,
                                               redis_client=redis_client)
 
-    if current_user_lang == settings.RU_LANG_CODE:
+    if current_user_lang == settings.project.RU_LANG_CODE:
         lang_code = {
             "main": 'ru_help_main.html',
             "cat": 'ru_help_categories.html',

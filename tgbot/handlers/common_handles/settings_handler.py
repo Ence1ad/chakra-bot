@@ -80,9 +80,9 @@ def _get_language(call_data: str, buttons: AppButtons) -> str:
     """
     if call_data in (buttons.settings_btn_source.RUSSIA.name,
                      buttons.settings_btn_source.X_RUSSIA.name):
-        lang_code: str = settings.RU_LANG_CODE
+        lang_code: str = settings.project.RU_LANG_CODE
     else:
-        lang_code: str = settings.EN_LANG_CODE
+        lang_code: str = settings.project.EN_LANG_CODE
     return lang_code
 
 

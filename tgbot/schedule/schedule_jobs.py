@@ -29,7 +29,7 @@ async def delete_tracker_job(
     return scheduler.add_job(
         func=func, trigger='date',
         run_date=datetime.datetime.now() + datetime.timedelta(
-            hours=settings.MAX_HOURS_DURATION_TRACKER),
+            hours=settings.project.MAX_HOURS_DURATION_TRACKER),
         kwargs={"user_id": user_id, "msg_text": msg_text}
     )
 
@@ -48,6 +48,6 @@ async def interval_sending_reports_job(
     :return: Job: The scheduled APScheduler Job for the task.
     """
     return scheduler.add_job(
-        func=func, trigger='cron', day_of_week=settings.CRON_DAY_OF_WEEK,
-        hour=settings.CRON_HOUR, minute=settings.CRON_MINUTE
+        func=func, trigger='cron', day_of_week=settings.project.CRON_DAY_OF_WEEK,
+        hour=settings.project.CRON_HOUR, minute=settings.project.CRON_MINUTE
     )

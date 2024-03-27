@@ -174,7 +174,7 @@ def _lang_bot_settings():
 
     :return: str: The default language code for bot tests.
     """
-    return settings.GLOBAL_LANG_CODE
+    return settings.project.GLOBAL_LANG_CODE
 
 
 @pytest_asyncio.fixture(scope="session")

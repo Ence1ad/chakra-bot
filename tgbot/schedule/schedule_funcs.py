@@ -69,12 +69,12 @@ async def schedule_weekly_report(
             category_data: DataFrame = await pd_category_data(report)
             await create_fig(df_action=action_data, df_categories=category_data)
             await asyncio.sleep(3)
-            doc_path = f"{settings.USER_REPORT_DIR}{user_id}/" \
-                       f"{settings.WEEKLY_XLSX_FILE_NAME}"
+            doc_path = f"{settings.project.USER_REPORT_DIR}{user_id}/" \
+                       f"{settings.project.WEEKLY_XLSX_FILE_NAME}"
             document = FSInputFile(doc_path)
             try:
                 await bot.send_document(chat_id=user_id, document=document)
-                await asyncio.sleep(settings.REPORTS_DISTRIBUTION_DELAY)
+                await asyncio.sleep(settings.project.REPORTS_DISTRIBUTION_DELAY)
             except TelegramForbiddenError as ex:
                 logging.exception(ex)
     return None

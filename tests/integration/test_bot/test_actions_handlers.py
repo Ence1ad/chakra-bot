@@ -38,13 +38,13 @@ class TestActionsHandlers:
     @pytest_asyncio.fixture(scope="class")
     async def create_actions_more_than_limit(self, db_session_fixture: AsyncSession):
         user_id = MAIN_USER_ID
-        for name in range(settings.USER_ACTIONS_LIMIT):
+        for name in range(settings.project.USER_ACTIONS_LIMIT):
             await create_actions(user_id=user_id, category_id=CATEGORY_ID,
                                  action_name=str(name), db_session=db_session_fixture)
         try:
             yield
         finally:
-            for act_id in range(settings.USER_ACTIONS_LIMIT):
+            for act_id in range(settings.project.USER_ACTIONS_LIMIT):
                 await delete_action(user_id=user_id, action_id=act_id + 1,
                                     db_session=db_session_fixture)
 
@@ -230,7 +230,7 @@ class TestActionsHandlers:
                 assert handler_returns.reply_markup == await menu_inline_kb(
                     await buttons.actions_btn_source.action_menu_buttons(), i18n)
                 assert handler_returns.text == i18n.get(
-                    answer_text, action_limit=settings.USER_ACTIONS_LIMIT
+                    answer_text, action_limit=settings.project.USER_ACTIONS_LIMIT
                 )
             else:
                 assert handler_returns.text == i18n.get(answer_text)

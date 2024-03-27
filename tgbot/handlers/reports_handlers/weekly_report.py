@@ -64,7 +64,10 @@ async def get_document(user_id, redis_client: Redis, db_session) -> FSInputFile 
     :return: FSInputFile | None: The user's report document as a file or None if no
      document is available.
     """
-    file_name = f"{settings.USER_REPORT_DIR}{user_id}/{settings.WEEKLY_XLSX_FILE_NAME}"
+    file_name = (
+        f"{settings.project.USER_REPORT_DIR}{user_id}/"
+        f"{settings.project.WEEKLY_XLSX_FILE_NAME}"
+    )
     is_report_need_update = await redis_get_report_need_upd(user_id, redis_client)
 
     if (is_report_need_update is None) or int(is_report_need_update) == 1:

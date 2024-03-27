@@ -24,9 +24,9 @@ class TestLanguageManager:
             (MAIN_USER_ID, "ru", does_not_raise()),
             (OTHER_USER_ID, "en", does_not_raise()),
             (MAIN_USER_ID, None, does_not_raise()),
-            (MAIN_USER_ID, settings.GLOBAL_LANG_CODE, does_not_raise()),
-            (OTHER_USER_ID, settings.RU_LANG_CODE, does_not_raise()),
-            (MAIN_USER_ID, settings.EN_LANG_CODE, does_not_raise()),
+            (MAIN_USER_ID, settings.project.GLOBAL_LANG_CODE, does_not_raise()),
+            (OTHER_USER_ID, settings.project.RU_LANG_CODE, does_not_raise()),
+            (MAIN_USER_ID, settings.project.EN_LANG_CODE, does_not_raise()),
         ]
     )
     async def test_redis_hget_lang(self, user_id: int,  redis_cli: Redis,
@@ -50,7 +50,7 @@ class TestLanguageManager:
             lang = await redis_hget_lang(user_id, redis_cli, local)
             assert isinstance(lang, str)
             if local is None:
-                assert lang == settings.GLOBAL_LANG_CODE
+                assert lang == settings.project.GLOBAL_LANG_CODE
             else:
                 assert lang == local
 
@@ -60,9 +60,9 @@ class TestLanguageManager:
             (OTHER_USER_ID, "ru", does_not_raise()),
             (MAIN_USER_ID, "en", does_not_raise()),
             (OTHER_USER_ID, None, pytest.raises(AssertionError)),
-            (OTHER_USER_ID, settings.GLOBAL_LANG_CODE, does_not_raise()),
-            (MAIN_USER_ID, settings.RU_LANG_CODE, does_not_raise()),
-            (OTHER_USER_ID, settings.EN_LANG_CODE, does_not_raise()),
+            (OTHER_USER_ID, settings.project.GLOBAL_LANG_CODE, does_not_raise()),
+            (MAIN_USER_ID, settings.project.RU_LANG_CODE, does_not_raise()),
+            (OTHER_USER_ID, settings.project.EN_LANG_CODE, does_not_raise()),
         ]
     )
     async def test_redis_hset_lang(self, user_id: int,  redis_cli: Redis,

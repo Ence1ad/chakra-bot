@@ -53,7 +53,7 @@ async def select_stopped_trackers(user_id: int, db_session: AsyncSession
                        cast(TrackerModel.track_end, Date) == func.current_date(),
                        TrackerModel.duration.is_not(None))\
                 .order_by(desc(TrackerModel.tracker_id))\
-                .limit(settings.USER_TRACKERS_WEEKLY_LIMIT)
+                .limit(settings.project.USER_TRACKERS_WEEKLY_LIMIT)
 
             res = await session.execute(stmt)
             return res.fetchall()

@@ -37,7 +37,7 @@ async def test_bot_commands(bot: MockedBot) -> None:
     set_commands = await bot_commands(bot)
     assert isinstance(set_commands, SetMyCommands)
     assert set_commands.scope.type == BotCommandScopeType.ALL_PRIVATE_CHATS
-    assert set_commands.language_code == settings.GLOBAL_LANG_CODE
+    assert set_commands.language_code == settings.project.GLOBAL_LANG_CODE
     assert [com.command for com in set_commands.commands] == \
            [com.value for com in CommandName]
 
@@ -107,8 +107,8 @@ class TestScheduleFunc:
                                                 scheduler: ContextSchedulerDecorator):
         res: Job = await interval_sending_reports_job(scheduler)
         assert isinstance(res, Job)
-        test_trigger = CronTrigger(day_of_week=settings.CRON_DAY_OF_WEEK,
-                                   hour=settings.CRON_HOUR,
-                                   minute=settings.CRON_MINUTE)
+        test_trigger = CronTrigger(day_of_week=settings.project.CRON_DAY_OF_WEEK,
+                                   hour=settings.project.CRON_HOUR,
+                                   minute=settings.project.CRON_MINUTE)
         assert res.trigger.FIELDS_MAP == test_trigger.FIELDS_MAP
         assert res.pending

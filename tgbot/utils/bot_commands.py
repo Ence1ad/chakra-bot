@@ -51,4 +51,4 @@ async def bot_commands(bot: Bot) -> bool:
 
     return await bot.set_my_commands(commands=commands,
                                      scope=BotCommandScopeAllPrivateChats(),
-                                     language_code=settings.GLOBAL_LANG_CODE)
+                                     language_code=settings.project.GLOBAL_LANG_CODE)

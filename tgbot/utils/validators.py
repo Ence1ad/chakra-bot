@@ -11,10 +11,10 @@ async def valid_name(db_data: Sequence, name: str) -> str | None:
     :param name: str: The name to be validated.
     :return: str or None: If the name is valid and unique, it's returned with
     leading/trailing whitespace removed and truncated to the length specified in the
-    settings (settings.LENGTH_NAME_LIMIT). If the name is not valid (e.g., not unique),
-    None is returned.
+    settings (settings.project.LENGTH_NAME_LIMIT).
+     If the name is not valid (e.g., not unique), None is returned.
     """
-    name = name and html.quote(name.strip())[:settings.LENGTH_NAME_LIMIT]
+    name = name and html.quote(name.strip())[:settings.project.LENGTH_NAME_LIMIT]
     for data in db_data:
         if str(name) in data:
             return None
