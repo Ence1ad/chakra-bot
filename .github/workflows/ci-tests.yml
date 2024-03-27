@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature_settings" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feature_settings" ]
 
   workflow_dispatch:
 
